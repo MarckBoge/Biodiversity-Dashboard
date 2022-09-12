@@ -139,31 +139,31 @@ function buildCharts(sample) {
     console.log(wfregs)
   
 // 4. Create the trace for the gauge chart.
-    var gaugeData = [{
-    value: wfregs,
-    type: "indicator",
-    mode: "gauge+number",
-    title: {text: "<b> Belly Button Washing Frequency </b> <br></br> Scrubs Per Week"},
-    gauge: {
-      axis: {range: [null,10], dtick: "2"},
-
-      bar: {color: "black"},
-      steps:[
-        {range: [0, 2], color: "red"},
-        {range: [2, 4], color: "orange"},
-        {range: [4, 6], color: "yellow"},
-        {range: [6, 8], color: "lightgreen"},
-        {range: [8, 10], color: "green"}
+    var gaugeData = [
+    {
+      domain: { x: [0, 1], y: [0, 1]},
+      value: wfregs,
+      title: { text: "<b> Belly Button Washing Frequency </b> <br></br> Scrubs Per Week"},
+      type: "indicator",
+      mode: "gauge+number",
+      gauge: {
+        axis: { range: [null, 10], dtick: "2"},
+        bar: { color: "black"},
+        steps: [
+            { range: [0, 2], color: "red" },
+            { range: [2, 4], color: "orange" },
+            { range: [4, 6], color: "yellow" },
+            { range: [6, 8], color: "yellowgreen" },
+            { range: [8, 10], color: "green" }
         ],
-        dtick: 2
       }
-    }];
-    
+    }]
 // 5. Create the layout for the gauge chart.
-    var gaugeLayout = { 
-      automargin: true
+var gaugeLayout = { 
+  width: 500, 
+  height: 425, 
+  margin: { t: 0, b: 0 } };
      
-    };
 
 // 6. Use Plotly to plot the gauge data and layout.
     Plotly.newPlot("gauge", gaugeData, gaugeLayout);    
