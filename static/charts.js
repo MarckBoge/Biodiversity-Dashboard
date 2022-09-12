@@ -58,8 +58,10 @@ function buildMetadata(sample) {
 function buildCharts(sample) {
   // 2. Use d3.json to load and retrieve the samples.json file 
   d3.json("samples.json").then((data) => {
+    console.log(data);
     // 3. Create a variable that holds the samples array. 
     var samples = data.samples;
+    
     // 4. Create a variable that filters the samples for the object with the desired sample number.
     var resultArray = samples.filter(sampleObj => sampleObj.id == sample);
     //  5. Create a variable that holds the first sample in the array.
@@ -102,24 +104,27 @@ function buildCharts(sample) {
 
     // 1. Create the trace for the bubble chart.
     var bubbleData = [{
-    x: ids,
-    y: values,
-    text: labels,
-    mode: "markers",
-       marker: {
-         size: values,
-         color: ids,
-         colorscale: "Portland" 
-       }
-    }];
-  
-    // 2. Create the layout for the bubble chart.
-    var bubbleLayout = {
-    title: "Bacteria Cultures Per Sample",
-    xaxis: {title: "OTU ID"},
-    automargin: true,
-    hovermode: "closest"
-    };
+      x: ids,
+      y: values,
+      text: labels,
+      mode: "markers",
+      marker: {
+        color: ids,
+        colorscale: 'Portland',
+        size: values,
+        }
+    }
+  ];
+
+  var bubbleLayout = {
+    xaxis: { title: "OTU ID" },
+    
+  };
+
+  // Render the plot to the div tag with id "bubble"
+  Plotly.newPlot("bubble", bubbleData, bubbleLayout);
+
+
 
     // 3. Use Plotly to plot the data with the layout.
     Plotly.newPlot('bubble', bubbleData, bubbleLayout); 
@@ -129,20 +134,22 @@ function buildCharts(sample) {
 
 // 1. Create a variable that filters the metadata array for the object with the desired sample number.
     var metadata = data.metadata;
-    var gaugeData = metadata.filter(metaObj => metaObj.id == sample);
+    console.log(metadata);
+    var gaugeData = metadata.filter(sampleObj => sampleObj.id == sample);
+    console.log(gaugeData);
 
 // 2. Create a variable that holds the first sample in the metadata array.
-    var gaugeResult = resultArray[0];
+    var gaugeResult = gaugeData[0];
 
 // 3. Create a variable that holds the washing frequency.
-    var wfregs = gaugeResult.wfregs;
-    console.log(wfregs)
+    var wfreqs = parseFloat(gaugeResult.wfreq);
+    console.log(wfreqs)
   
 // 4. Create the trace for the gauge chart.
     var gaugeData = [
     {
       domain: { x: [0, 1], y: [0, 1]},
-      value: wfregs,
+      value: wfreqs,
       title: { text: "<b> Belly Button Washing Frequency </b> <br></br> Scrubs Per Week"},
       type: "indicator",
       mode: "gauge+number",
